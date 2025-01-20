@@ -25,7 +25,7 @@ export default function AvailabilityPage() {
         );
     }
 
-    if (error) {
+    if (error || !data) {
         return (
             <div className="flex items-center justify-center h-screen">
                 Something went wrong
