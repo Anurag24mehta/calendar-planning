@@ -1,0 +1,17 @@
+import {onboardingSchema} from "@/schemas/onboardingSchema";
+import {NextResponse} from "next/server";
+
+export async function POST(req: Request) {
+    try{
+        const  {fullName, username} = await req.json();
+        const result = onboardingSchema.safeParse({fullName, username});
+        if (!result.success) {
+            return NextResponse.json({message: result.error.errors, status: 400});
+        }else{
+
+        }
+
+    }catch(error){
+        console.error(error);
+    }
+}
