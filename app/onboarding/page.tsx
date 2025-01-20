@@ -1,10 +1,8 @@
 "use client";
 import {useState} from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import * as z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
-import debounce from "debounce";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -17,8 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {onboardingSchema} from "@/schemas/onboardingSchema";
-import {redirect} from "next/navigation";
 import { useRouter } from "next/navigation";
+import {toast} from "@/hooks/use-toast";
 
 type FormValues = z.infer<typeof onboardingSchema>;
 
@@ -66,12 +64,15 @@ export default function MyForm() {
             if (status === 200) {
                 router.push("/dashboard");
             }else{
-                toast.error("Something went wrong");
-                console.error("Something went wrong");
+                throw new Error("Failed to submit form");
             }
         } catch (error) {
             console.error("Error submitting form", error);
-            toast.error("Something went wrong");
+            toast({
+                title: "Error",
+                description: "Failed to submit form",
+                variant: "destructive",
+            })
         }finally {
             setIsSubmitting(false);
         }
