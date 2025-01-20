@@ -10,11 +10,11 @@ interface DataContextType {
 }
 
 
-const DataContext = createContext<DataContextType>();
+const DataContext = createContext<DataContextType>(null!);
 
 export const useData = () => useContext(DataContext);
 
-export const DataProvider = ({ children }) => {
+export const DataProvider = ({ children } : { children: React.ReactNode }) => {
     const [date, setDate] = useState(today(getLocalTimeZone()).toString());
     const [time, setTime] = useState(" ");
 
