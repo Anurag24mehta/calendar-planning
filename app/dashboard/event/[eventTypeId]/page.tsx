@@ -32,6 +32,7 @@ import {useEffect} from "react";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+
 export default function EditEventPage({params} : {params: {eventTypeId: string}}) {
     const router = useRouter();
     const {data, error, isLoading} = useSWR(`/api/event/${params.eventTypeId}`, fetcher);

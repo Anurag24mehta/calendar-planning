@@ -2,10 +2,9 @@ import {auth} from "@/app/lib/auth";
 import {notFound, redirect} from "next/navigation";
 import prisma from "@/app/lib/db";
 import {EmptyState} from "@/components/EmptyState";
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import { Button } from "@/components/ui/button"; // ShadCN Button
-import { Switch } from "@/components/ui/switch"; // ShadCN Switch
-import {Settings, Calendar, ExternalLink, Link2, Pen, Trash} from "lucide-react";
+import {Settings, Calendar, ExternalLink, Pen, Trash} from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
@@ -17,7 +16,7 @@ import Link from "next/link";
 import {CopyLinkMenu} from "@/components/dashboard/CopyLinkMenu";
 import {MenuActiveSwitch} from "@/components/dashboard/EventTypeSwitch";
 
-async function getdata(userId: string) {
+async function getData(userId: string) {
     const data = await prisma.user.findUnique({
         where: {
             id: userId
@@ -46,7 +45,7 @@ export default async function DashboardPage(){
     if (!session?.user) {
         return redirect("/");
     }
-    const data = await getdata(session.user.id as string);
+    const data = await getData(session.user.id as string);
     return(
         <div>
             {data.eventType.length === 0 ? (

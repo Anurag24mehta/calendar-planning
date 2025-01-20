@@ -9,6 +9,23 @@ import {toast} from "@/hooks/use-toast";
 import useSWR, {mutate} from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+type MeetingProps = {
+    id: string;
+    title: string;
+    when: {
+        startTime: number;
+        endTime: number;
+    };
+    conferencing: {
+        details: {
+            url: string;
+        }
+    };
+    participants: {
+        name: string;
+    }[]
+}
 export default function MeetingsRoute(){
     const {data,error,isLoading} = useSWR("/api/meeting", fetcher);
 
@@ -75,7 +92,10 @@ export default function MeetingsRoute(){
             console.error(error);
         }
     }
-
+    console.log(data.data.data);
+    console.log(data.data.data[0].when);
+    console.log(data.data.data[0].conferencing);
+    console.log()
     return(
         <>
             <Card>
@@ -86,7 +106,7 @@ export default function MeetingsRoute(){
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    {data.data.data.map((item, index) => (
+                    {data.data.data.map((item : MeetingProps, index: number) => (
                         <div key={index} className="grid grid-cols-3 justify-center items-center">
                             <div>
                                 <p className="text-muted-foreground text-sm">

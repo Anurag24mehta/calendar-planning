@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { AnyTime, Time } from "@internationalized/date";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
-import {useRouter} from "next/navigation";
 import {useData} from "@/app/lib/bookingContext";
 
 interface TimeTableProps {
