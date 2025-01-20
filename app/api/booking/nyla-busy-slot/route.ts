@@ -75,12 +75,14 @@ export async function POST(req: Request) {
         const busySlots : TimeSlotProps[] = [];
         const allSlots : Time[] = [];
 
-        nylasCalendarData.data[0].timeSlots.forEach(slot => {
+        
+        const timeSlots = (nylasCalendarData.data[0] as any).timeSlots;
+        timeSlots.forEach(slot=> {
             busySlots.push({
                 fromTime: toTime(fromAbsolute(slot.startTime * 1000, getLocalTimeZone())),
                 tillTime: toTime(fromAbsolute(slot.endTime * 1000, getLocalTimeZone()))
-            })
-        })
+            });
+        });
 
 
         const availableTime: TimeSlotProps = {
