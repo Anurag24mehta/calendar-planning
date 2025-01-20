@@ -2,7 +2,7 @@ import {auth} from "@/app/lib/auth";
 import {redirect} from "next/navigation";
 import {z} from "zod";
 import {NextResponse} from "next/server";
-import {PrismaClient} from "@prisma/client";
+import prisma from "@/app/lib/db";
 // const DayEnum = z.enum(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']);
 //
 // const availabilitySchema = z.object({
@@ -23,7 +23,6 @@ export async function POST(req: Request) {
         return NextResponse.json({error: "Unauthorized"}, {status: 401});
     }
     try{
-        const prisma = new PrismaClient();
         const data = await req.json();
         for (let i = 0;i<7;i++){
             const user = await prisma.user.update({
