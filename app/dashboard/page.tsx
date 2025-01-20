@@ -16,7 +16,6 @@ import {
 import Link from "next/link";
 import {CopyLinkMenu} from "@/components/dashboard/CopyLinkMenu";
 import {MenuActiveSwitch} from "@/components/dashboard/EventTypeSwitch";
-import {DeleteMenu} from "@/components/dashboard/DeleteMenu";
 
 async function getdata(userId: string) {
     const data = await prisma.user.findUnique({

@@ -5,5 +5,6 @@ export const newEventSchema= z.object ({
     url: z.string(),
     description: z.string(),
     duration: z.number(),
-    videoCallSoftware: z.string()
+    videoCallSoftware: z.string(),
+    id: z.string().optional(),
 })
