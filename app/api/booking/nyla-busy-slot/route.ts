@@ -3,21 +3,18 @@ import prisma from "@/app/lib/db";
 import {Day} from "@prisma/client";
 import {auth} from "@/app/lib/auth";
 import {nylas} from "@/app/lib/nylas";
-import {AnyTime, fromAbsolute, getLocalTimeZone, now, parseTime, toTime} from "@internationalized/date";
+import {fromAbsolute, getLocalTimeZone, now, parseTime, toTime, Time} from "@internationalized/date";
 
 const days:Day[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 interface TimeSlotProps {
-    fromTime: AnyTime
-    tillTime: AnyTime
+    fromTime: Time
+    tillTime: Time
 }
 
-function isBetween (check : AnyTime, from: AnyTime , to: AnyTime){
-    if (check.compare(from) > 0 && to.compare(check) > 0){
-        return true
-    }else{
-        return false
-    }
+function isBetween(check: Time, from: Time, to: Time) {
+    return check.compare(from) > 0 && to.compare(check) > 0;
 }
+
 
 
 export async function POST(req: Request) {
@@ -76,7 +73,7 @@ export async function POST(req: Request) {
         }
 
         const busySlots : TimeSlotProps[] = [];
-        const allSlots : AnyTime[] = [];
+        const allSlots : Time[] = [];
 
         nylasCalendarData.data[0].timeSlots.forEach(slot => {
             busySlots.push({
@@ -92,7 +89,7 @@ export async function POST(req: Request) {
         }
 
         //created all possible time slots within the available time of the day at a gap of 15 minutes
-        let currSlot = availableTime.fromTime;
+        let currSlot : Time = availableTime.fromTime;
         while (availableTime.tillTime.compare(currSlot.add({minutes: duration})) > 0) {
             allSlots.push(currSlot);
             currSlot = currSlot.add({minutes: 15});
@@ -102,7 +99,7 @@ export async function POST(req: Request) {
         //Filtering out time slots and before current time
         const today = new Date();
 
-        const freeSlots = allSlots.filter((slot) => {
+        const freeSlots = allSlots.filter((slot : Time) => {
             const slotEnd = slot.add({minutes: duration});
 
             // If checking for tomorrow (no time constraint, only busy slots matter)
