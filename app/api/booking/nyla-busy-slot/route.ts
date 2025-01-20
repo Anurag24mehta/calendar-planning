@@ -6,6 +6,13 @@ import {nylas} from "@/app/lib/nylas";
 import {fromAbsolute, getLocalTimeZone, now, parseTime, toTime, Time} from "@internationalized/date";
 
 const days:Day[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+interface NylaBusySlotProp {
+    object: string,
+    status: string,
+    startTime: number,
+    endTime: number
+}
 interface TimeSlotProps {
     fromTime: Time
     tillTime: Time
@@ -77,7 +84,8 @@ export async function POST(req: Request) {
 
         
         const timeSlots = (nylasCalendarData.data[0] as any).timeSlots;
-        timeSlots.forEach(slot=> {
+        timeSlots.forEach((slot : NylaBusySlotProp) => {
+            console.log(slot);
             busySlots.push({
                 fromTime: toTime(fromAbsolute(slot.startTime * 1000, getLocalTimeZone())),
                 tillTime: toTime(fromAbsolute(slot.endTime * 1000, getLocalTimeZone()))
